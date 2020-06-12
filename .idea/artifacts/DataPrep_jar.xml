@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DataPrep:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DataPrep_jar</output-path>
+    <root id="archive" name="DataPrep.jar">
+      <element id="module-output" name="DataPrep" />
+    </root>
+  </artifact>
+</component>
