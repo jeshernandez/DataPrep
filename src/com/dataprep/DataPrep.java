@@ -12,9 +12,6 @@ public class DataPrep {
         } else {
             System.out.println("Requires input file, output file, delimiter.");
         }
-
-
-
     }
 
 
