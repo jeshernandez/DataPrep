@@ -1,7 +1,3 @@
-package com.dataprep.fileread;
-
-import com.dataprep.fileoutput.ExportToFlatFile;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.Vector;

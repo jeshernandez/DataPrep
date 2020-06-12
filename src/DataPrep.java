@@ -1,7 +1,3 @@
-package com.dataprep;
-
-import com.dataprep.fileread.DelimitedFile;
-
 import java.io.IOException;
 
 public class DataPrep {

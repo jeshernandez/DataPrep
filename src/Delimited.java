@@ -1,7 +1,3 @@
-package com.dataprep.fileread;
-
-import com.dataprep.filesanitation.FileSanitation;
-
 abstract class Delimited implements FileReader {
 
     public String cleanFileName(String fileName) {

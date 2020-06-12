@@ -1,5 +1,3 @@
-package com.dataprep.fileread;
-
 /**
  * Created by jeshernandez on 07/22/2017.
  */

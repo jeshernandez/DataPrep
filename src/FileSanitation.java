@@ -1,5 +1,3 @@
-package com.dataprep.filesanitation;
-
 public class FileSanitation {
     /**
      * Sanitizes FileName and removes special chars.

@@ -1,5 +1,3 @@
-package com.dataprep.fileread;
-
 import java.io.IOException;
 import java.util.HashMap;
 
