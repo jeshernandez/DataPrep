@@ -1,43 +1,12 @@
-import java.io.*;
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Vector;
 
-public class DelimitedFile extends Delimited {
+public class DelimitedFile {
     private Vector<String[]> datatmp;
     private String delimiter;
-
-
-    // ---------------------------------------------------
-    public HashMap<Integer, String> getHeaders(String inputFile, String delimiter) throws IOException {
-        setDelimeter(delimiter);
-        String[] headers = null;
-
-        HashMap<Integer, String> docHeaders = new HashMap<Integer, String>();
-
-        try (FileInputStream fs = new FileInputStream(inputFile)) {
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
-
-            headers = br.readLine().split(delimiter);
-
-            for (int i = 0; i < headers.length; i++) {
-                docHeaders.put(i, cleanHeaders(headers[i]));
-                //System.out.println("Header>>: " + headers[i]);
-            }
-
-            int lines = 1;
-            while (br.readLine() != null) lines++;
-            fs.getChannel().position(0);
-            br = new BufferedReader(new InputStreamReader(fs));
-
-            fs.close();
-            br.close();
-        }
-
-        return docHeaders;
-
-    } // End of getHeaders
-
 
     public void getRecords(String inputFile, String ouputFile, String delimiter) throws IOException {
         String[] headers = null;
