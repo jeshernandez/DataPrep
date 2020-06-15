@@ -4,20 +4,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DataPrep {
+    private static String logName = "dataprep.log";
     private final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
-    private static String LogFileName = "dataprep.log";
+
     public static void main(String[] args) throws IOException {
         LOGGER.setLevel(Level.INFO);
-        FileHandler fileHandler = new FileHandler(LogFileName);
+        FileHandler fileHandler = new FileHandler(logName);
         LOGGER.addHandler(fileHandler);
         LOGGER.info("Application Main started");
 
         if(args.length > 2) {
             startProcessing(args[0], args[1], args[2]);
-            LOGGER.info("Parameters: " + args[0] +", " + args[1] + ", " + args[2]);
+            LOGGER.log(Level.INFO, "Parameters successfully entered." );
+
         } else {
-            System.out.println("Requires input file, output file, delimiter.");
-            LOGGER.info("User did not input all required parameters.");
+            LOGGER.log(Level.INFO, "User did not input all required parameters.");
+            System.out.println("Parameters Required: input.txt output.txt delimiter (e.g. \\\\t for tab)");
         }
     }
 
@@ -28,6 +30,7 @@ public class DataPrep {
             delimitedFile.getRecords(inputFile, outputFile, delimiter);
         } catch (IOException e) {
             e.printStackTrace();
+            LOGGER.log(Level.INFO, e.getMessage());
         }
     }
 
