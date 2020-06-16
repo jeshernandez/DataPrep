@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
 
 public class ExportToFlatFile {
     Vector<String[]> datacache;
@@ -13,20 +14,18 @@ public class ExportToFlatFile {
         String delimiter = "|";
         datacache = data;
 
-
-        try {
-            FileWriter writer = new FileWriter(exportFilePath);
-
-                // Columns
+        try (FileWriter writer = new FileWriter(exportFilePath)){
                 cCount = headers.length;
                 cCountStop = cCount - 1;
+                String logColumnMsg = "Header Count: " + cCount;
+                DataPrep.LOGGER.log(Level.INFO, logColumnMsg );
 
                 for(int i = 0; i < cCount; i++) {
                     if(i == cCountStop) {
-                        writer.append(headers[i].toString().toUpperCase().replaceAll(" ", "_"));
+                        writer.append(headers[i].toUpperCase().replace(" ", "_"));
                         writer.append('\n'); // Close the column header
                     } else {
-                        writer.append(headers[i].toString().toUpperCase().replaceAll(" ", "_"));
+                        writer.append(headers[i].toUpperCase().replace(" ", "_"));
                         writer.append(delimiter);
                     }
                 }
@@ -34,7 +33,8 @@ public class ExportToFlatFile {
 
                 rCount = datacache.size();
                 rCountStop = rCount - 1;
-                //System.out.println("Row Count: " + rCountStop);
+                String logRowMsg = "Row Count: " + rCount;
+                DataPrep.LOGGER.log(Level.INFO, logRowMsg);
                 StringBuilder line = new StringBuilder();;
             for(int r = 0; r < rCount; r++) {
                     if(r == rCountStop) {
@@ -50,7 +50,6 @@ public class ExportToFlatFile {
 
                         }
 
-                        //System.out.println("Line: " + line);
                         writer.append(line.toString());
                         line.setLength(0);
                     } else {
@@ -73,9 +72,6 @@ public class ExportToFlatFile {
                 } // end-for-loop
 
 
-
-            writer.flush();
-            writer.close();
 
         } catch (IOException e) {
             e.printStackTrace();

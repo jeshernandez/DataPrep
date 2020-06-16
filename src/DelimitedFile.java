@@ -5,10 +5,11 @@ import java.io.InputStreamReader;
 import java.util.Vector;
 
 public class DelimitedFile {
-    private Vector<String[]> datatmp;
+
     private String delimiter;
 
     public void getRecords(String inputFile, String ouputFile, String delimiter) throws IOException {
+        Vector<String[]> datatmp;
         String[] headers = null;
         setDelimeter(delimiter);
         datatmp = new Vector<>();

@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public class DataPrep {
     private static String logName = "dataprep.log";
-    private final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
+    public final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
 
     public static void main(String[] args) throws IOException {
         LOGGER.setLevel(Level.INFO);
