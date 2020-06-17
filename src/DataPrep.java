@@ -20,7 +20,7 @@ public class DataPrep {
 
         } else {
             LOGGER.log(Level.INFO, "User did not input all required parameters.");
-            System.out.println("Parameters Required: input.txt output.txt delimiter (e.g. \\\\t for tab)");
+            System.err.println("Parameters Required: input.txt output.txt delimiter (e.g. \t for tab)");
         }
     }
 

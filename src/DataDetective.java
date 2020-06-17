@@ -75,8 +75,7 @@ public class DataDetective {
     }
 
     public String removeNumbers(String s) {
-        String clean = s.replaceAll("[0-9]", "*");
-        return clean;
+        return s.replaceAll("[0-9]", "*");
     }
 
     public boolean isDate(String s) {

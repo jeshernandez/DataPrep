@@ -27,9 +27,6 @@ public class DelimitedFile {
             ExportToFlatFile exportToFlatFile = new ExportToFlatFile();
             exportToFlatFile.init(ouputFile, datatmp);
 
-            fs.close();
-            br.close();
-
         }
     }
 

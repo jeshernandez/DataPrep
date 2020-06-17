@@ -12,8 +12,6 @@ public class ExportToFlatFile {
 
     public void init(String exportFilePath, List<String[]> data) {
         int rCount = 0;
-        int rCountStop = 0;
-
         datacache = data;
         dataDetective = new DataDetective();
         headers = datacache.get(0);
@@ -36,49 +34,32 @@ public class ExportToFlatFile {
 
 
                 rCount = datacache.size();
-                rCountStop = rCount - 1;
                 String logRowMsg = "Row Count: " + rCount;
                 DataPrep.LOGGER.log(Level.INFO, logRowMsg);
-                StringBuilder line = new StringBuilder();;
+                StringBuilder line = new StringBuilder();
             for(int r = 1; r < rCount; r++) {
                 String[] lineValue = datacache.get(r);
 
                 int cCountR = lineValue.length;
-                if(r == rCountStop) {
-                        for(int c = 0; c < cCountR; c++) {
-                            if(c == cCountR-1) {
-                                line.append(scrubLine(lineValue[c]));
-                                line.append('\n'); // Close the row
-                            } else {
-                                line.append(scrubLine(lineValue[c]));
-                                line.append(outDelimiter);
-                            }
-                        }
 
-                        writer.append(line.toString());
-                        line.setLength(0);
-
+                for(int c = 0; c < cCountR; c++) {
+                    if(c == cCountR-1) {
+                        line.append(scrubLine(lineValue[c]));
+                        line.append('\n'); // Close the row
                     } else {
-                        for(int c = 0; c < cCountR; c++) {
-                            if(c == cCountR-1) {
-                                line.append(scrubLine(lineValue[c]));
-                                line.append('\n'); // Close the row
-                            } else {
-                                line.append(scrubLine(lineValue[c]));
-                                line.append(outDelimiter);
-                            }
-
-                        }
-
-                        writer.append(line.toString());
-                        line.setLength(0);
+                        line.append(scrubLine(lineValue[c]));
+                        line.append(outDelimiter);
                     }
+                }
+
+                writer.append(line.toString());
+                line.setLength(0);
                 } // end-for-loop
 
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            DataPrep.LOGGER.log(Level.INFO, e.getMessage());
         }
     }
 
@@ -90,7 +71,8 @@ public class ExportToFlatFile {
             boolean isInt = dataDetective.isNumber(lineSplit[x]);
             boolean isDate = dataDetective.isDate(lineSplit[x]);
             String clean = null;
-            if(isInt == false && isDate == false) {
+
+            if(!isInt && !isDate) {
                 clean = dataDetective.removeNumbers(dataDetective.removePII(lineSplit[x]));
                 clean = dataDetective.addDQuotes(clean);
 
