@@ -5,14 +5,17 @@ import java.util.logging.Level;
 
 public class ExportToFlatFile {
     Vector<String[]> datacache;
+    DataDetective dataDetective;
+    String outDelimiter = "|";
 
     public void init(String exportFilePath, Vector<String[]> data, String[] headers) {
         int cCount = 0;
         int rCount = 0;
         int cCountStop = 0;
         int rCountStop = 0;
-        String delimiter = "|";
+
         datacache = data;
+        dataDetective = new DataDetective();
 
         try (FileWriter writer = new FileWriter(exportFilePath)){
                 cCount = headers.length;
@@ -26,7 +29,7 @@ public class ExportToFlatFile {
                         writer.append('\n'); // Close the column header
                     } else {
                         writer.append(headers[i].toUpperCase().replace(" ", "_"));
-                        writer.append(delimiter);
+                        writer.append(outDelimiter);
                     }
                 }
 
@@ -41,11 +44,11 @@ public class ExportToFlatFile {
                         for(int c = 0; c < cCount; c++) {
 
                             if(c == cCountStop) {
-                                line.append(getValueAt(r, c));
+                                line.append(scrubLine(getValueAt(r, c).toString()));
                                 line.append('\n'); // Close the row
                             } else {
-                                line.append(getValueAt(r, c));
-                                line.append(delimiter);
+                                line.append(scrubLine(getValueAt(r, c).toString()));
+                                line.append(outDelimiter);
                             }
 
                         }
@@ -56,16 +59,15 @@ public class ExportToFlatFile {
                         for(int c = 0; c < cCount; c++) {
 
                             if(c == cCountStop) {
-                                line.append(getValueAt(r, c));
+                                line.append(scrubLine(getValueAt(r, c).toString()));
                                 line.append('\n'); // Close the row
                             } else {
-                                line.append(getValueAt(r, c));
-                                line.append(delimiter);
+                                line.append(scrubLine(getValueAt(r, c).toString()));
+                                line.append(outDelimiter);
                             }
 
                         }
 
-                        //System.out.println("Line: " + line);
                         writer.append(line.toString());
                         line.setLength(0);
                     }
@@ -76,6 +78,28 @@ public class ExportToFlatFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String scrubLine(String line) {
+        String[] lineSplit = line.split(DataPrep.getDelimiter());
+        StringBuilder scrubbed = new StringBuilder();
+        System.out.println("Count: " + lineSplit.length);
+
+        for(int x = 0; x < lineSplit.length; x++) {
+            boolean isInt = dataDetective.isNumber(lineSplit[x]);
+            boolean isDate = dataDetective.isDate(lineSplit[x]);
+            String clean = null;
+            if(isInt == false && isDate == false) {
+                clean = dataDetective.removeNumbers(dataDetective.removePII(lineSplit[x]));
+                clean = dataDetective.addDQuotes(clean);
+
+            } else {
+                clean = line;
+            }
+            scrubbed.append(clean);
+            System.out.println("Is it Int? " + isInt);
+        }
+        return scrubbed.toString();
     }
 
     // --------------------------------------------------------------

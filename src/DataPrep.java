@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 public class DataPrep {
     private static String logName = "dataprep.log";
     public final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
+    public static String delimiter;
 
     public static void main(String[] args) throws IOException {
         LOGGER.setLevel(Level.INFO);
@@ -26,6 +27,7 @@ public class DataPrep {
 
     public static void startProcessing(String inputFile, String outputFile, String delimiter) {
         DelimitedFile delimitedFile = new DelimitedFile();
+        setDelimiter(delimiter);
         try {
             delimitedFile.getRecords(inputFile, outputFile, delimiter);
         } catch (IOException e) {
@@ -34,5 +36,12 @@ public class DataPrep {
         }
     }
 
+    public static String getDelimiter() {
+        return delimiter;
+    }
+
+    public static void setDelimiter(String delimiter) {
+        DataPrep.delimiter = delimiter;
+    }
 
 } // End of DataPrep
