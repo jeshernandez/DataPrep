@@ -72,9 +72,15 @@ public class ExportToFlatFile {
             String clean = null;
 
             if(!isInt && !isDate) {
-                clean = dataDetective.removeNumbers(dataDetective.removePII(lineSplit[x]));
-                clean = dataDetective.addDQuotes(clean);
-
+                if(DataPrep.isScrubPII()) {
+                    clean = dataDetective.removePII(lineSplit[x]);
+                } else if(DataPrep.isScrubNumbersFromText()) {
+                    clean = dataDetective.removeNumbers(lineSplit[x]);
+                } else if(DataPrep.isScrubPII() && DataPrep.isScrubPII()) {
+                    clean = dataDetective.removeNumbers(dataDetective.removePII(lineSplit[x]));
+                } else {
+                    clean = dataDetective.addDQuotes(lineSplit[x]);
+                }
             } else {
                 clean = line;
             }

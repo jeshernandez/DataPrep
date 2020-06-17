@@ -8,11 +8,16 @@ public class DataPrep {
     public final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
     public static String incomingDelimiter;
     public static String outputDelimiter;
+    public static boolean scrubPII;
+    public static boolean scrubNumbersFromText;
     static DataPrepSettings dataPrepSettings = new DataPrepSettings();
 
     public static void main(String[] args)  {
         setLoggingSystem();
         dataPrepSettings.setSettings();
+        setOutputDelimiter(dataPrepSettings.getOutputDelimiter());
+        setScrubPII(dataPrepSettings.isScrubPII());
+        setScrubNumbersFromText(dataPrepSettings.isScrubNumberFromText());
         LOGGER.info("Application Main started");
 
         if(args.length > 2) {
@@ -38,7 +43,6 @@ public class DataPrep {
 
     public static void startProcessing(String inputFile, String outputFile, String delimiter) {
         DelimitedFile delimitedFile = new DelimitedFile();
-        setOutputDelimiter(dataPrepSettings.getOutputDelimiter());
         setIncomingDelimiter(delimiter);
         try {
             delimitedFile.getRecords(inputFile, outputFile);
@@ -63,5 +67,21 @@ public class DataPrep {
 
     public static void setOutputDelimiter(String outputDelimiter) {
         DataPrep.outputDelimiter = outputDelimiter;
+    }
+
+    public static boolean isScrubPII() {
+        return scrubPII;
+    }
+
+    public static void setScrubPII(boolean scrubPII) {
+        DataPrep.scrubPII = scrubPII;
+    }
+
+    public static boolean isScrubNumbersFromText() {
+        return scrubNumbersFromText;
+    }
+
+    public static void setScrubNumbersFromText(boolean scrubNumbersFromText) {
+        DataPrep.scrubNumbersFromText = scrubNumbersFromText;
     }
 } // End of DataPrep

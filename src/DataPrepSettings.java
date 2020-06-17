@@ -15,7 +15,9 @@ public class DataPrepSettings {
 
             if(!exists) {
                 Properties saveProps = new Properties();
-                saveProps.setProperty("output_delimiter", "\t");
+                saveProps.setProperty("output_delimiter", "|");
+                saveProps.setProperty("scrub_pii", "false");
+                saveProps.setProperty("scrub_numbers_from_text", "false");
                 saveProps.storeToXML(new FileOutputStream(fileName), "");
             }
         } catch (IOException e) {
@@ -33,6 +35,25 @@ public class DataPrepSettings {
         }
     }
 
+    public boolean isScrubPII() {
+        try {
+            Properties loadProps = new Properties();
+            loadProps.loadFromXML(new FileInputStream(fileName));
+            return  Boolean.parseBoolean(loadProps.getProperty("scrub_pii"));
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public boolean isScrubNumberFromText() {
+        try {
+            Properties loadProps = new Properties();
+            loadProps.loadFromXML(new FileInputStream(fileName));
+            return  Boolean.parseBoolean(loadProps.getProperty("scrub_numbers_from_text"));
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
 
 } // End of DataPrepSettings
