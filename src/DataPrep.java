@@ -29,7 +29,7 @@ public class DataPrep {
         DelimitedFile delimitedFile = new DelimitedFile();
         setDelimiter(delimiter);
         try {
-            delimitedFile.getRecords(inputFile, outputFile, delimiter);
+            delimitedFile.getRecords(inputFile, outputFile);
         } catch (IOException e) {
             e.printStackTrace();
             LOGGER.log(Level.INFO, e.getMessage());

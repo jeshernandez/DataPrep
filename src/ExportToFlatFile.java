@@ -1,30 +1,31 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.*;
 import java.util.logging.Level;
 
 public class ExportToFlatFile {
-    Vector<String[]> datacache;
+    List<String[]> datacache;
     DataDetective dataDetective;
     String outDelimiter = "|";
+    String[] headers = null;
 
-    public void init(String exportFilePath, Vector<String[]> data, String[] headers) {
-        int cCount = 0;
+
+    public void init(String exportFilePath, List<String[]> data) {
         int rCount = 0;
-        int cCountStop = 0;
         int rCountStop = 0;
 
         datacache = data;
         dataDetective = new DataDetective();
+        headers = datacache.get(0);
+
 
         try (FileWriter writer = new FileWriter(exportFilePath)){
-                cCount = headers.length;
-                cCountStop = cCount - 1;
+                int cCount = headers.length;
                 String logColumnMsg = "Header Count: " + cCount;
                 DataPrep.LOGGER.log(Level.INFO, logColumnMsg );
 
                 for(int i = 0; i < cCount; i++) {
-                    if(i == cCountStop) {
+                    if(i == (cCount-1)) {
                         writer.append(headers[i].toUpperCase().replace(" ", "_"));
                         writer.append('\n'); // Close the column header
                     } else {
@@ -39,30 +40,31 @@ public class ExportToFlatFile {
                 String logRowMsg = "Row Count: " + rCount;
                 DataPrep.LOGGER.log(Level.INFO, logRowMsg);
                 StringBuilder line = new StringBuilder();;
-            for(int r = 0; r < rCount; r++) {
-                    if(r == rCountStop) {
-                        for(int c = 0; c < cCount; c++) {
+            for(int r = 1; r < rCount; r++) {
+                String[] lineValue = datacache.get(r);
 
-                            if(c == cCountStop) {
-                                line.append(scrubLine(getValueAt(r, c).toString()));
+                int cCountR = lineValue.length;
+                if(r == rCountStop) {
+                        for(int c = 0; c < cCountR; c++) {
+                            if(c == cCountR-1) {
+                                line.append(scrubLine(lineValue[c]));
                                 line.append('\n'); // Close the row
                             } else {
-                                line.append(scrubLine(getValueAt(r, c).toString()));
+                                line.append(scrubLine(lineValue[c]));
                                 line.append(outDelimiter);
                             }
-
                         }
 
                         writer.append(line.toString());
                         line.setLength(0);
-                    } else {
-                        for(int c = 0; c < cCount; c++) {
 
-                            if(c == cCountStop) {
-                                line.append(scrubLine(getValueAt(r, c).toString()));
+                    } else {
+                        for(int c = 0; c < cCountR; c++) {
+                            if(c == cCountR-1) {
+                                line.append(scrubLine(lineValue[c]));
                                 line.append('\n'); // Close the row
                             } else {
-                                line.append(scrubLine(getValueAt(r, c).toString()));
+                                line.append(scrubLine(lineValue[c]));
                                 line.append(outDelimiter);
                             }
 
@@ -100,14 +102,7 @@ public class ExportToFlatFile {
         return scrubbed.toString();
     }
 
-    // --------------------------------------------------------------
-    public Object getValueAt(int row, int col) {
-        if(datacache.isEmpty()) {
-            return null;
-        } else {
-            return ((Object[]) datacache.elementAt(row))[col];
-        }
-    }
+
 
 
 } // End of ExportToFlatFile class
