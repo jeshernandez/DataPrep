@@ -76,7 +76,7 @@ public class ExportToFlatFile {
                     clean = dataDetective.removePII(lineSplit[x]);
                 } else if(DataPrep.isScrubNumbersFromText()) {
                     clean = dataDetective.removeNumbers(lineSplit[x]);
-                } else if(DataPrep.isScrubPII() && DataPrep.isScrubPII()) {
+                } else if(DataPrep.isScrubPII() && DataPrep.isScrubNumbersFromText()) {
                     clean = dataDetective.removeNumbers(dataDetective.removePII(lineSplit[x]));
                 } else {
                     clean = dataDetective.addDQuotes(lineSplit[x]);

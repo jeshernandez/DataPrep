@@ -20,7 +20,7 @@ public class DataDetective {
     }
 
     public String removePII(String s) {
-        List<String> piiList = new ArrayList<String>();
+        List<String> piiList = new ArrayList<>();
         String clean = s;
         piiList.add("ssn");
         piiList.add("number");

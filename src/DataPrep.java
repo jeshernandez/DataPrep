@@ -4,13 +4,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DataPrep {
+    static DataPrepSettings dataPrepSettings = new DataPrepSettings();
     private static String logName = "dataprep.log";
     public final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
     public static String incomingDelimiter;
     public static String outputDelimiter;
     public static boolean scrubPII;
     public static boolean scrubNumbersFromText;
-    static DataPrepSettings dataPrepSettings = new DataPrepSettings();
 
     public static void main(String[] args)  {
         setLoggingSystem();
@@ -37,7 +37,7 @@ public class DataPrep {
             FileHandler fileHandler = new FileHandler(logName);
             LOGGER.addHandler(fileHandler);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.INFO, e.getMessage());
         }
     }
 
@@ -47,7 +47,6 @@ public class DataPrep {
         try {
             delimitedFile.getRecords(inputFile, outputFile);
         } catch (IOException e) {
-            e.printStackTrace();
             LOGGER.log(Level.INFO, e.getMessage());
         }
     }
