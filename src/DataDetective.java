@@ -66,8 +66,11 @@ public class DataDetective {
 
     public String addDQuotes(String s) {
         StringBuilder sb = new StringBuilder(s);
-        sb.insert(0, "\"");
-        sb.insert(s.length()+1, "\"");
+        if(sb.length()>0) {
+            sb.insert(0, "\"");
+            sb.insert(s.length()+1, "\"");
+        }
+
         return sb.toString();
     }
 
