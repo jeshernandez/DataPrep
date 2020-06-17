@@ -6,7 +6,7 @@ import java.util.logging.Level;
 public class ExportToFlatFile {
     List<String[]> datacache;
     DataDetective dataDetective;
-    String outDelimiter = "|";
+    String outDelimiter = DataPrep.getOutputDelimiter();
     String[] headers = null;
 
 
@@ -15,7 +15,6 @@ public class ExportToFlatFile {
         datacache = data;
         dataDetective = new DataDetective();
         headers = datacache.get(0);
-
 
         try (FileWriter writer = new FileWriter(exportFilePath)){
                 int cCount = headers.length;
@@ -64,7 +63,7 @@ public class ExportToFlatFile {
     }
 
     private String scrubLine(String line) {
-        String[] lineSplit = line.split(DataPrep.getDelimiter());
+        String[] lineSplit = line.split(DataPrep.getIncomingDelimiter());
         StringBuilder scrubbed = new StringBuilder();
 
         for(int x = 0; x < lineSplit.length; x++) {

@@ -18,7 +18,7 @@ public class DelimitedFile {
             int i = 0;
             while ((line = br.readLine()) != null) {
 
-                String[] values = line.split(DataPrep.getDelimiter());
+                String[] values = line.split(DataPrep.getIncomingDelimiter());
                 datatmp.add(i, values);
 
                 i++;

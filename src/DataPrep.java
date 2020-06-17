@@ -6,12 +6,13 @@ import java.util.logging.Logger;
 public class DataPrep {
     private static String logName = "dataprep.log";
     public final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
-    public static String delimiter;
+    public static String incomingDelimiter;
+    public static String outputDelimiter;
+    static DataPrepSettings dataPrepSettings = new DataPrepSettings();
 
-    public static void main(String[] args) throws IOException {
-        LOGGER.setLevel(Level.INFO);
-        FileHandler fileHandler = new FileHandler(logName);
-        LOGGER.addHandler(fileHandler);
+    public static void main(String[] args)  {
+        setLoggingSystem();
+        dataPrepSettings.setSettings();
         LOGGER.info("Application Main started");
 
         if(args.length > 2) {
@@ -25,9 +26,20 @@ public class DataPrep {
     }
 
 
+    private static void setLoggingSystem()  {
+        LOGGER.setLevel(Level.INFO);
+        try  {
+            FileHandler fileHandler = new FileHandler(logName);
+            LOGGER.addHandler(fileHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void startProcessing(String inputFile, String outputFile, String delimiter) {
         DelimitedFile delimitedFile = new DelimitedFile();
-        setDelimiter(delimiter);
+        setOutputDelimiter(dataPrepSettings.getOutputDelimiter());
+        setIncomingDelimiter(delimiter);
         try {
             delimitedFile.getRecords(inputFile, outputFile);
         } catch (IOException e) {
@@ -36,12 +48,20 @@ public class DataPrep {
         }
     }
 
-    public static String getDelimiter() {
-        return delimiter;
+
+    public static String getIncomingDelimiter() {
+        return incomingDelimiter;
     }
 
-    public static void setDelimiter(String delimiter) {
-        DataPrep.delimiter = delimiter;
+    public static void setIncomingDelimiter(String incomingDelimiter) {
+        DataPrep.incomingDelimiter = incomingDelimiter;
     }
 
+    public static String getOutputDelimiter() {
+        return outputDelimiter;
+    }
+
+    public static void setOutputDelimiter(String outputDelimiter) {
+        DataPrep.outputDelimiter = outputDelimiter;
+    }
 } // End of DataPrep
