@@ -83,7 +83,6 @@ public class ExportToFlatFile {
     private String scrubLine(String line) {
         String[] lineSplit = line.split(DataPrep.getDelimiter());
         StringBuilder scrubbed = new StringBuilder();
-        System.out.println("Count: " + lineSplit.length);
 
         for(int x = 0; x < lineSplit.length; x++) {
             boolean isInt = dataDetective.isNumber(lineSplit[x]);
@@ -97,7 +96,6 @@ public class ExportToFlatFile {
                 clean = line;
             }
             scrubbed.append(clean);
-            System.out.println("Is it Int? " + isInt);
         }
         return scrubbed.toString();
     }

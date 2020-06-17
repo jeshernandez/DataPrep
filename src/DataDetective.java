@@ -55,7 +55,6 @@ public class DataDetective {
         piiList.add("cw4");
         piiList.add("cw5");
 
-        System.out.println("Dictionary Size: " + piiList.size());
         for (int i = 0; i < piiList.size(); i++) {
             String tmp = null;
             tmp = clean.toLowerCase().replace(piiList.get(i), "***");
@@ -78,7 +77,6 @@ public class DataDetective {
     }
 
     public boolean isDate(String s) {
-        System.out.println("Submitting: " + s);
         String[] patterns = {"yyyy-MM-dd HH:mm", "yyyy-MM-dd HH", "yyyy-MM-dd", "yyyy-MM-dd HH:mm:SS"
                 , "yyyy-MM-dd kk:mm:ss", "MM/dd/yyyy", "dd-MM-yy", "dd-MM-yyyy"};
         String date = s;
@@ -87,10 +85,8 @@ public class DataDetective {
                 .anyMatch(pattern -> {
                     try {
                         LocalDateTime.parse(date, DateTimeFormatter.ofPattern(pattern));
-                        System.out.println("Correct");
                         return true;
                     } catch (Exception e) {
-                        System.out.println("Not Correct");
                         return false;
                     }
                 });
