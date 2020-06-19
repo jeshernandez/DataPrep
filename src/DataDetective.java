@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -5,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DataDetective {
+    List<String> names = getNameList();
+
 
     public boolean isNumber(String s)
     {
@@ -93,6 +99,44 @@ public class DataDetective {
                     }
                 });
         return check;
+    }
+
+    public String isName(String s) {
+        String clean = s;
+        StringBuilder compiledLine = new StringBuilder();
+
+        String[] lineSplit = clean.split(" ");
+
+        for(int l = 0; l < lineSplit.length; l++) {
+            for (int n = 0; n < names.size(); n++) {
+                if(lineSplit[l].toLowerCase().matches(names.get(n).toLowerCase())) {
+                    lineSplit[l] = "*";
+                    compiledLine.append( lineSplit[l]);
+                }
+            }
+            compiledLine.append(lineSplit[l]);
+            compiledLine.append(" ");
+        }
+        return compiledLine.toString();
+    }
+
+    public List<String> getNameList() {
+        List<String> nameList = new ArrayList<>();
+
+        try (FileInputStream fs = new FileInputStream(DataPrep.nameFile)) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                nameList.add(line);
+            }
+            fs.close();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return nameList;
     }
 
 } // End of DataDetective

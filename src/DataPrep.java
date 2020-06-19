@@ -5,7 +5,8 @@ import java.util.logging.Logger;
 
 public class DataPrep {
     static DataPrepSettings dataPrepSettings = new DataPrepSettings();
-    private static String logName = "dataprep.log";
+    public static String logName = "dataprep.log";
+    public static String nameFile = "name_list.txt";
     public final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
     public static String incomingDelimiter;
     public static String outputDelimiter;

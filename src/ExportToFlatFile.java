@@ -74,6 +74,7 @@ public class ExportToFlatFile {
             if(!isInt && !isDate) {
                 if(DataPrep.isScrubPII()) {
                     clean = dataDetective.removePII(lineSplit[x]);
+                    clean = dataDetective.isName(clean);
                 } else if(DataPrep.isScrubNumbersFromText()) {
                     clean = dataDetective.removeNumbers(lineSplit[x]);
                 } else if(DataPrep.isScrubPII() && DataPrep.isScrubNumbersFromText()) {
