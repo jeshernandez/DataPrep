@@ -71,21 +71,26 @@ public class DataDetective {
 
     public String isName(String s) {
         String clean = s;
+        String replaceValue = "<nm>";
         StringBuilder compiledLine = new StringBuilder();
 
         String[] lineSplit = clean.split(" ");
 
         for(int l = 0; l < lineSplit.length; l++) {
             for (int n = 0; n < names.size(); n++) {
-                if(lineSplit[l].toLowerCase().replace("-", "").replace("'", "")
-                        .matches(names.get(n).toLowerCase().replace("-", "").replace("'", ""))) {
-                    lineSplit[l] = "<nm>";
-                    compiledLine.append( lineSplit[l]);
+                String lineCompare = lineSplit[l].toLowerCase().replace("-", "").replace("'", "");
+                String nameCompare = names.get(n).toLowerCase().replace("-", "").replace("'", "");
+
+                if(lineCompare.matches(nameCompare)) {
+                    lineSplit[l] = lineSplit[l].replace(nameCompare, "<nm>");
+                    break;
                 }
             }
+
             compiledLine.append(lineSplit[l]);
             compiledLine.append(" ");
-        }
+        } // end-first-for-loop
+
         return compiledLine.toString();
     }
 
