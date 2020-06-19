@@ -28,10 +28,11 @@ public class DataDetective {
 
     public String removePII(String s) {
         String clean = s;
+        String replaceValue = "<pii>";
 
         for (int i = 0; i < pii.size(); i++) {
             String tmp = null;
-            tmp = clean.toLowerCase().replace("-", "").replace(pii.get(i), "<pii>");
+            tmp = clean.toLowerCase().replace("-", "").replace(pii.get(i), replaceValue);
             clean = tmp;
         }
 
@@ -82,7 +83,7 @@ public class DataDetective {
                 String nameCompare = names.get(n).toLowerCase().replace("-", "").replace("'", "");
 
                 if(lineCompare.matches(nameCompare)) {
-                    lineSplit[l] = lineSplit[l].replace(nameCompare, "<nm>");
+                    lineSplit[l] = lineSplit[l].replace(nameCompare, replaceValue);
                     break;
                 }
             }
