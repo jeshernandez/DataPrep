@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DataDetective {
     List<String> names = getNameList();
+    List<String> pii = getPiiList();
 
 
     public boolean isNumber(String s)
@@ -26,44 +27,11 @@ public class DataDetective {
     }
 
     public String removePII(String s) {
-        List<String> piiList = new ArrayList<>();
         String clean = s;
-        piiList.add("ssn");
-        piiList.add("number");
-        piiList.add("dod");
-        piiList.add("dod");
-        piiList.add("pvt");
-        piiList.add("pv2");
-        piiList.add("pfc");
-        piiList.add("spc");
-        piiList.add("cpl");
-        piiList.add("sgt");
-        piiList.add("ssg");
-        piiList.add("sfc");
-        piiList.add("msg");
-        piiList.add("1sg");
-        piiList.add("sgm");
-        piiList.add("csm");
-        piiList.add("2lt");
-        piiList.add("1lt");
-        piiList.add("cpt");
-        piiList.add("maj");
-        piiList.add("ltc");
-        piiList.add("col");
-        piiList.add("bg");
-        piiList.add("mg");
-        piiList.add("ltg");
-        piiList.add("gen");
-        piiList.add("goa");
-        piiList.add("w01");
-        piiList.add("cw2");
-        piiList.add("cw3");
-        piiList.add("cw4");
-        piiList.add("cw5");
 
-        for (int i = 0; i < piiList.size(); i++) {
+        for (int i = 0; i < pii.size(); i++) {
             String tmp = null;
-            tmp = clean.toLowerCase().replace(piiList.get(i), "***");
+            tmp = clean.toLowerCase().replace("-", "").replace(pii.get(i), "<pii>");
             clean = tmp;
         }
 
@@ -81,7 +49,7 @@ public class DataDetective {
     }
 
     public String removeNumbers(String s) {
-        return s.replaceAll("[0-9]", "*");
+        return s.replaceAll("[0-9]", "<n>");
     }
 
     public boolean isDate(String s) {
@@ -109,8 +77,9 @@ public class DataDetective {
 
         for(int l = 0; l < lineSplit.length; l++) {
             for (int n = 0; n < names.size(); n++) {
-                if(lineSplit[l].toLowerCase().matches(names.get(n).toLowerCase())) {
-                    lineSplit[l] = "*";
+                if(lineSplit[l].toLowerCase().replace("-", "").replace("'", "")
+                        .matches(names.get(n).toLowerCase().replace("-", "").replace("'", ""))) {
+                    lineSplit[l] = "<nm>";
                     compiledLine.append( lineSplit[l]);
                 }
             }
@@ -128,7 +97,7 @@ public class DataDetective {
             String line;
 
             while ((line = br.readLine()) != null) {
-                nameList.add(line);
+                nameList.add(line.toLowerCase().replace("-", ""));
             }
             fs.close();
             br.close();
@@ -137,6 +106,25 @@ public class DataDetective {
         }
 
         return nameList;
+    }
+
+    private List<String> getPiiList() {
+        List<String> piiList = new ArrayList<>();
+
+        try (FileInputStream fs = new FileInputStream(DataPrep.piiFile)) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                piiList.add(line);
+            }
+            fs.close();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return piiList;
     }
 
 } // End of DataDetective
