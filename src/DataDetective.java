@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 public class DataDetective {
     List<String> names = getNameList();
@@ -136,10 +137,9 @@ public class DataDetective {
             while ((line = br.readLine()) != null) {
                 nameList.add(line.toLowerCase().replace("-", ""));
             }
-            fs.close();
-            br.close();
+
         } catch (IOException e) {
-            e.printStackTrace();
+            DataPrep.LOGGER.log(Level.INFO, e.getMessage());
         }
 
         return nameList;
@@ -155,10 +155,9 @@ public class DataDetective {
             while ((line = br.readLine()) != null) {
                 piiList.add(line);
             }
-            fs.close();
-            br.close();
+
         } catch (IOException e) {
-            e.printStackTrace();
+            DataPrep.LOGGER.log(Level.INFO, e.getMessage());
         }
 
         return piiList;
