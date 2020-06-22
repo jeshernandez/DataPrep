@@ -82,11 +82,13 @@ public class ExportToFlatFile {
                     tmp = dataDetective.removeNumbers(clean);
                     clean = tmp;
                     tmp = dataDetective.addDQuotes(clean);
-                    clean = tmp;
-                    tmp = dataDetective.isEmail(clean);
-                    scrubbed.append(tmp);
                 }
 
+                if(DataPrep.isScrubEmailFromText()) {
+                    tmp = dataDetective.isEmail(clean);
+                }
+
+                scrubbed.append(tmp);
             } else {
                 scrubbed.append(line);
             }

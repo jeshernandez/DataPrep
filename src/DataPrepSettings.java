@@ -18,6 +18,7 @@ public class DataPrepSettings {
                 saveProps.setProperty("output_delimiter", "|");
                 saveProps.setProperty("scrub_pii", "false");
                 saveProps.setProperty("scrub_numbers_from_text", "false");
+                saveProps.setProperty("scrub_email_from_text", "false");
                 saveProps.storeToXML(new FileOutputStream(fileName), "");
             }
         } catch (IOException e) {
@@ -55,5 +56,15 @@ public class DataPrepSettings {
         }
     }
 
+
+    public boolean isScrubEmailFromText() {
+        try {
+            Properties loadProps = new Properties();
+            loadProps.loadFromXML(new FileInputStream(fileName));
+            return  Boolean.parseBoolean(loadProps.getProperty("scrub_email_from_text"));
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
 } // End of DataPrepSettings

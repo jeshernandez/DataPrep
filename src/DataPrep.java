@@ -13,6 +13,7 @@ public class DataPrep {
     public static String outputDelimiter;
     public static boolean scrubPII;
     public static boolean scrubNumbersFromText;
+    public static boolean scrubEmailFromText;
 
     public static void main(String[] args)  {
         setLoggingSystem();
@@ -20,6 +21,7 @@ public class DataPrep {
         setOutputDelimiter(dataPrepSettings.getOutputDelimiter());
         setScrubPII(dataPrepSettings.isScrubPII());
         setScrubNumbersFromText(dataPrepSettings.isScrubNumberFromText());
+        setScrubEmailFromText(dataPrepSettings.isScrubEmailFromText());
         LOGGER.info("Application Main started");
 
         if(args.length > 2) {
@@ -84,5 +86,13 @@ public class DataPrep {
 
     public static void setScrubNumbersFromText(boolean scrubNumbersFromText) {
         DataPrep.scrubNumbersFromText = scrubNumbersFromText;
+    }
+
+    public static boolean isScrubEmailFromText() {
+        return scrubEmailFromText;
+    }
+
+    public static void setScrubEmailFromText(boolean scrubEmailFromText) {
+        DataPrep.scrubEmailFromText = scrubEmailFromText;
     }
 } // End of DataPrep
