@@ -75,13 +75,15 @@ public class ExportToFlatFile {
                 String tmp = null;
                 if(DataPrep.isScrubPII()) {
 
-                    tmp = dataDetective.removePII(lineSplit[x]);
+                    tmp = dataDetective.addDQuotes(lineSplit[x]);
+                    clean = tmp;
+                    tmp = dataDetective.removePII(clean);
                     clean = tmp;
                     tmp = dataDetective.isName(clean);
                     clean = tmp;
                     tmp = dataDetective.removeNumbers(clean);
                     clean = tmp;
-                    tmp = dataDetective.addDQuotes(clean);
+
                 }
 
                 if(DataPrep.isScrubEmailFromText()) {
