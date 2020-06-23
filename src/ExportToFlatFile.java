@@ -74,23 +74,26 @@ public class ExportToFlatFile {
             if(!isInt && !isDate) {
                 String tmp = null;
                 if(DataPrep.isScrubPII()) {
-
-                    tmp = dataDetective.addDQuotes(lineSplit[x]);
-                    clean = tmp;
                     tmp = dataDetective.removePII(clean);
                     clean = tmp;
                     tmp = dataDetective.isName(clean);
                     clean = tmp;
+                } else {
+                    tmp = dataDetective.addDQuotes(lineSplit[x]);
+                    clean = tmp;
+                }
+
+                if(DataPrep.isScrubNumbersFromText()) {
                     tmp = dataDetective.removeNumbers(clean);
                     clean = tmp;
-
                 }
 
                 if(DataPrep.isScrubEmailFromText()) {
                     tmp = dataDetective.isEmail(clean);
+                    clean = tmp;
                 }
 
-                scrubbed.append(tmp);
+                scrubbed.append(clean);
             } else {
                 scrubbed.append(line);
             }
