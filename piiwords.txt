@@ -54,3 +54,4 @@ msgt
 nipr
 sipr
 medical
+social
