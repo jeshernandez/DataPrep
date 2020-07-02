@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -11,6 +12,7 @@ public class ExportToFlatFile {
 
 
     public void init(String exportFilePath, List<String[]> data) {
+        File tempFile = new File(exportFilePath);
         int rCount = 0;
         datacache = data;
         dataDetective = new DataDetective();
@@ -52,6 +54,7 @@ public class ExportToFlatFile {
                 }
 
                 writer.append(line.toString());
+
                 line.setLength(0);
                 } // end-for-loop
 

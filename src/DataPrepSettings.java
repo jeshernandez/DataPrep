@@ -7,6 +7,7 @@ import java.util.logging.Level;
 
 public class DataPrepSettings {
     private final String fileName = "settings.xml";
+    private String defaultPermissions = "false";
 
     public void setSettings() {
         try {
@@ -16,10 +17,13 @@ public class DataPrepSettings {
             if(!exists) {
                 Properties saveProps = new Properties();
                 saveProps.setProperty("output_delimiter", "|");
-                saveProps.setProperty("scrub_pii", "false");
-                saveProps.setProperty("scrub_numbers_from_text", "false");
-                saveProps.setProperty("scrub_email_from_text", "false");
+                saveProps.setProperty("scrub_pii", defaultPermissions);
+                saveProps.setProperty("scrub_numbers_from_text", defaultPermissions);
+                saveProps.setProperty("scrub_email_from_text", defaultPermissions);
                 saveProps.storeToXML(new FileOutputStream(fileName), "");
+                tempFile.setExecutable(false);
+                tempFile.setReadable(true);
+                tempFile.setWritable(true);
             }
         } catch (IOException e) {
             DataPrep.LOGGER.log(Level.INFO, e.getMessage());
