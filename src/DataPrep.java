@@ -4,10 +4,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DataPrep {
-    static DataPrepSettings dataPrepSettings = new DataPrepSettings();
-    public static String logName = "dataprep.log";
+    static final DataPrepSettings dataPrepSettings = new DataPrepSettings();
+    public static final String logName = "dataprep.log";
     public static String nameFile = "name_list.txt";
-    public static String piiFile = "piiwords.txt";
+    public static String piiFile = "pii_words.txt";
     public final static Logger LOGGER = Logger.getLogger(DataPrep.class.getName());
     public static String incomingDelimiter;
     public static String outputDelimiter;
